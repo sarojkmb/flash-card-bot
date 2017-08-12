@@ -80,6 +80,9 @@ var bot = controller.spawn({
     token: process.env.token
 }).startRTM();
 
+/**
+ * First message, greets and shows the available keywords
+ */
 controller.hears(['hello', 'hi'], 'direct_message,direct_mention,mention', function(bot, message) {
 
     bot.api.reactions.add({
@@ -96,13 +99,19 @@ controller.hears(['hello', 'hi'], 'direct_message,direct_mention,mention', funct
     controller.storage.users.get(message.user, function(err, user) {
         if (user && user.name) {
             bot.reply(message, 'Hello ' + user.name + '!!');
+            bot.reply(message, 'Key words: menu, main menu, subjects, questions');
         } else {
             bot.reply(message, 'Hello.');
+            bot.reply(message, 'Key words: menu, main menu, subjects, questions');
         }
     });
 });
 
-controller.hears(['call me (.*)', 'my name is (.*)'], 'direct_message,direct_mention,mention', function(bot, message) {
+
+
+
+
+controller.hears(['menu', 'main menu'], 'direct_message,direct_mention,mention', function(bot, message) {
     var name = message.match[1];
     controller.storage.users.get(message.user, function(err, user) {
         if (!user) {
